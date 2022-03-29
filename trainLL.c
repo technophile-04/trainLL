@@ -4,9 +4,9 @@
 enum class
 {
     Sleeper,
-    AC3,
+    AC1,
     AC2,
-    AC1
+    AC3
 };
 
 struct Train
@@ -116,26 +116,137 @@ struct Passenger *createList(struct Passenger *passengers, int noOfPassengers, s
         int trainId = passengers[i].trainID;
         enum class c = passengers[i].classType;
 
-        if (c == 0)
+        switch (c)
         {
+        case 0:
+            int isAllocated = 0;
             for (int j = 0; j < 2; j++)
             {
                 if (trains[trainId].bogie[j] <= trains[trainId].maxSeats)
                 {
                     trains[trainId].bogie[j]++;
                     head = insertPassanger(head, passengers[i].id, passengers[i].trainName, passengers[i].borardingStation, passengers[i].classType, passengers[i].destinationStation, passengers[i].trainID, trains[trainId].bogie[j], passengers[i].isUpgradble, &trains[trainId]);
+                    isAllocated = 1;
                     break;
                 }
             }
+
+            if (!isAllocated)
+            {
+                printf("%s could not be allocated seat\n", passengers[i].name);
+            }
+            else
+            {
+                printf("%s seat allocated successfull\n", passengers[i].name);
+            }
+            break;
+
+        case 1:
+            int isAllocated = 0;
+            for (int j = 2; j < 4; j++)
+            {
+                if (trains[trainId].bogie[j] <= trains[trainId].maxSeats)
+                {
+                    trains[trainId].bogie[j]++;
+                    head = insertPassanger(head, passengers[i].id, passengers[i].trainName, passengers[i].borardingStation, passengers[i].classType, passengers[i].destinationStation, passengers[i].trainID, trains[trainId].bogie[j], passengers[i].isUpgradble, &trains[trainId]);
+                    isAllocated = 1;
+                    break;
+                }
+            }
+
+            if (!isAllocated)
+            {
+                printf("%s could not be allocated seat\n", passengers[i].name);
+            }
+            else
+            {
+                printf("%s seat allocated successfull\n", passengers[i].name);
+            }
+            break;
+        case 2:
+            int isAllocated = 0;
+            for (int j = 4; j < 6; j++)
+            {
+                if (trains[trainId].bogie[j] <= trains[trainId].maxSeats)
+                {
+                    trains[trainId].bogie[j]++;
+                    head = insertPassanger(head, passengers[i].id, passengers[i].trainName, passengers[i].borardingStation, passengers[i].classType, passengers[i].destinationStation, passengers[i].trainID, trains[trainId].bogie[j], passengers[i].isUpgradble, &trains[trainId]);
+                    isAllocated = 1;
+                    break;
+                }
+            }
+
+            if (!isAllocated)
+            {
+                printf("%s could not be allocated seat\n", passengers[i].name);
+            }
+            else
+            {
+                printf("%s seat allocated successfull\n", passengers[i].name);
+            }
+            break;
+        case 3:
+            int isAllocated = 0;
+            for (int j = 6; j < 12; j++)
+            {
+                if (trains[trainId].bogie[j] <= trains[trainId].maxSeats)
+                {
+                    trains[trainId].bogie[j]++;
+                    head = insertPassanger(head, passengers[i].id, passengers[i].trainName, passengers[i].borardingStation, passengers[i].classType, passengers[i].destinationStation, passengers[i].trainID, trains[trainId].bogie[j], passengers[i].isUpgradble, &trains[trainId]);
+                    isAllocated = 1;
+                    break;
+                }
+            }
+
+            if (!isAllocated)
+            {
+                printf("%s could not be allocated seat\n", passengers[i].name);
+            }
+            else
+            {
+                printf("%s seat allocated successfull\n", passengers[i].name);
+            }
+            break;
+
+        default:
+            break;
         }
     }
+
+    return head;
+}
+
+void printList(struct Passenger *head)
+{
+    struct Passenger *temp = head;
+    while (temp != NULL)
+    {
+        printf("%d name\n", temp->id);
+        printf("%s name\n", temp->name);
+        printf("%s trainName\n", temp->trainName);
+        printf("%s boardingStation\n", temp->borardingStation);
+        printf("------------\n");
+        temp = temp->next;
+    }
+
+    return;
 }
 
 int main()
 {
     int noOfTrains;
+    enum class classType;
     scanf("%d", &noOfTrains);
     struct Train *trains = malloc(sizeof(struct Train) * noOfTrains);
+    struct Passenger *passengers = malloc(sizeof(struct Passenger) * 1);
+    passengers[0].name = "Rahul";
+    passengers[0].id = 0;
+    passengers[0].trainName = "CSMT";
+    passengers[0].borardingStation = "Thane";
+    passengers[0].classType = 0;
+    passengers[0].trainID = 1;
+    passengers[0].isUpgradble = 0;
+    passengers[0].train = &trains[1];
 
     for (int i = 0; i < noOfTrains; i++)
     {
@@ -153,6 +264,8 @@ int main()
 
         trains[i] = t1;
     }
+
+    struct Passenger *head = createList(passengers, 1, trains, noOfTrains);
 
     return 0;
 }
